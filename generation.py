@@ -11,6 +11,7 @@ from langchain_core.runnables import RunnablePassthrough
 from retriever import fusion_retrieval
 from retriever import bm25_index
 from extractDocs import fetch_pdf_chunks
+from langchain_core.runnables import RunnableLambda
 
 llm = OllamaLLM(model="deepseek-r1:1.5b", temperature=0)
 embedding_model = HuggingFaceEmbeddings(model_name="sentence-transformers/all-mpnet-base-v2")
@@ -20,7 +21,7 @@ cleaned_texts = fetch_pdf_chunks()
 bm25 = bm25_index(cleaned_texts)
 
 async def generate_answer(question):
-    retriever = fusion_retrieval(vectorstore, bm25, question, k=5, alpha=0.5)
+    retrieved_contexts = fusion_retrieval(vectorstore, bm25, query, k=5, alpha=0.5)
     template = """You are an expert in Control System Design and can explain content very well
     using presentations when given content about the topic to cover in the Presentation.
     Create a presentation based on the following query and the content provided.You should
@@ -49,21 +50,34 @@ async def generate_answer(question):
 
     Query: {question}
     Content: {context}"""
+    
     prompt = ChatPromptTemplate.from_template(template)
+    def input_builder(q):
+        print(retrieved_contexts)
+        return {"question": q, "context": retrieved_contexts}
 
     print("Running the chain")
     rag_chain = (
-    {"context": retriever, "question": RunnablePassthrough()}
+     RunnableLambda(input_builder)
     | prompt
     | llm
     | StrOutputParser()
 )
     return rag_chain.invoke(question)
 
-async def main():
-    df = pd.read_excel("Copy of RAG_task2_8thJune_answers(1).xlsx")
-    df['generated'] = await asyncio.gather(*(generate_answer(q) for q in df['Queries']))
+# async def main():
+#     df = pd.read_excel("Copy of RAG_task2_8thJune_answers(1).xlsx")
+#     df['generated'] = await asyncio.gather(*(generate_answer(q) for q in df['Queries']))
 
-    print(df['generated'])
+#     print(df['generated'])
 
-asyncio.run(main())
+import asyncio
+
+
+query = """Generate a PowerPoint presentation in bullet-point format on the topic Control Systems. 
+The presentation should include only ropic of stability Analysis of Control System. 
+"""
+
+if __name__ == "__main__":
+    print(asyncio.run(generate_answer(query)))
+
