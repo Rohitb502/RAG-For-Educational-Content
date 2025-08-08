@@ -41,4 +41,27 @@ It has *three main stages*:
 
 ### 3. Generation & Evaluation 🧠
 - *Answer Generation* (`generation.py`) — LLM creates structured, detailed answers.  
-- *Evaluation* (`bertscore.py`) — BERTScore checks similarity with reference content.  
+- *Evaluation* (`bertscore.py`) — BERTScore checks similarity with reference content.
+
+  ## Tech Stack 🛠️
+
+**Programming Language**
+- Python 3.9+
+
+**Frameworks & Libraries**
+- **LangChain** — Framework for building LLM-powered applications  
+- **FAISS** — Vector database for fast similarity search  
+- **Transformers (Hugging Face)** — For embedding generation  
+- **Neo4j** — For Knowledge Graph creation and traversal   
+- **BERTScore** — For evaluation of generated content
+
+**Large Language Models**
+- Gemma3 via Ollama
+- Hugging Face embedding models
+
+**Data Storage**
+- FAISS (for vector embeddings)
+
+
+
+
