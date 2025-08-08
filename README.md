@@ -62,6 +62,13 @@ It has *three main stages*:
 **Data Storage**
 - FAISS (for vector embeddings)
 
+## Future Scope 🚀
 
+- **Multilingual Support**  
+  Enable the system to process and generate content in multiple languages for wider accessibility.
 
+- **Real-time Data Ingestion**  
+  Integrate APIs to pull live educational data from trusted sources.
 
+- **Enhanced Knowledge Graph**  
+  Incorporate more complex relationships and reasoning capabilities in the KG.
