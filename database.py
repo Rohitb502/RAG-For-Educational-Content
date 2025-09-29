@@ -31,7 +31,7 @@ splits = text_splitter.split_documents(all_docs)
 conn = mysql.connector.connect(
     host="localhost",
     user="root",
-    password="Password123@",
+    password="",
     database="content"
 )
 cursor = conn.cursor()
@@ -52,6 +52,7 @@ for doc in all_docs:
 conn.commit()
 cursor.close()
 conn.close()
+
 
 
 
