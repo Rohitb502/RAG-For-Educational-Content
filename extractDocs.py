@@ -12,7 +12,7 @@ def fetch_pdf_chunks():
         conn = mysql.connector.connect(
             host="localhost",
             user="root",
-            password="Password123@",
+            password="",
             database="content"
         )
         cursor = conn.cursor(buffered=True)  # Use buffered cursor to avoid unread results
@@ -67,4 +67,5 @@ def fetch_pdf_chunks():
 
 
 if __name__ == "__main__":
+
     fetch_pdf_chunks()
